@@ -6,6 +6,7 @@ import (
 
 	"github.com/AndersonEstumano/FullCycle/internal/entity"
 	"github.com/AndersonEstumano/FullCycle/internal/service"
+	"github.com/go-chi/chi"
 )
 
 type CategoryHandler struct {
@@ -44,7 +45,7 @@ func (ch *CategoryHandler) GetCategories(w http.ResponseWriter, r *http.Request)
 }
 
 func (ch *CategoryHandler) GetCategory(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+	id := chi.URLParam(r, "id")
 	category, err := ch.CategoryService.GetCategory(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -52,4 +53,3 @@ func (ch *CategoryHandler) GetCategory(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(category)
 }
-
