@@ -2,9 +2,9 @@ package database
 
 import (
 	"database/sql"
-	"fmt"
 
 	"github.com/AndersonEstumano/FullCycle/internal/entity"
+	"github.com/google/uuid"
 )
 
 type ProductDB struct {
@@ -18,7 +18,7 @@ func NewProductDB(db *sql.DB) *ProductDB {
 }
 
 func (pd *ProductDB) CreateProduct(product *entity.Product) (*entity.Product, error) {
-	fmt.Printf("Creating product with category_id: %s\n", product.CategoryID)
+	product.ID = uuid.New().String()
 	_, err := pd.db.Exec("INSERT INTO products (id, name, description, price, category_id, image_url) VALUES (?, ?, ?, ?, ?, ?)",
 		product.ID, product.Name, product.Description, product.Price, product.CategoryID, product.ImageURL)
 	if err != nil {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/AndersonEstumano/FullCycle/internal/entity"
 	"github.com/AndersonEstumano/FullCycle/internal/service"
+	"github.com/go-chi/chi"
 )
 
 type ProductHandler struct {
@@ -25,7 +26,7 @@ func (ph *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	result, err := ph.ProductService.CreateProduct(product.Name, product.Description, product.ID, product.ImageURL ,product.Price)
+	result, err := ph.ProductService.CreateProduct(&product)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -44,7 +45,7 @@ func (ph *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ph *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+	id := chi.URLParam(r, "id")
 	if id == "" {
 		http.Error(w, "id is required", http.StatusBadRequest)
 		return
@@ -59,7 +60,7 @@ func (ph *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ph *ProductHandler) GetProductsByCategoryID(w http.ResponseWriter, r *http.Request) {
-	categoryID := r.URL.Query().Get("category_id")
+	categoryID := chi.URLParam(r, "id")
 	if categoryID == "" {
 		http.Error(w, "category_id is required", http.StatusBadRequest)
 		return

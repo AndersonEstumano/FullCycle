@@ -1,2 +1,4 @@
 .docker
 teste.http
+
+docker-compose.yml

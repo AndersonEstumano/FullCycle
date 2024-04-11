@@ -15,8 +15,7 @@ func NewProductService(ProductDB database.ProductDB) *ProductService {
 	}
 }
 
-func (ps *ProductService) CreateProduct(name, description, categoryID, imageURL string, price float64) (*entity.Product, error) {
-	product := entity.NewProduct(name, description, categoryID, imageURL, price)
+func (ps *ProductService) CreateProduct(product *entity.Product) (*entity.Product, error) {
 	_, err := ps.ProductDB.CreateProduct(product)
 	if err != nil {
 		return nil, err
